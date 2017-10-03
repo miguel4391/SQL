@@ -1,0 +1,33 @@
+SELECT Nota_Cx_CdAluno as 'Nr Aluno'
+	  ,Convert(varchar, Nota_Cx_CdDepartamento) + 'C' + Convert(varchar,Nota_Cx_CdCadeira) as 'Cod UC'
+	  ,Cade_NmCadeira as 'Nome UC'
+	  ,Nota_Cp_DtNotaSistema 'Data Lançamento'
+	  ,Nota_Nota as 'Nota'
+	  ,Nota_IdOper as 'Cod Docente'
+	  ,Clie_NmCliTes as 'nome Docente'
+	  ,Nota_IdResp as 'Cod Responsavel'
+	  ,Convert(varchar, Nota_AnoLect) + '/' + convert(varchar, Nota_AnoLect + 1)  as 'Ano Letivo'
+	  ,TPer_DgPeriod as 'Semestre'
+	  ,Nota_NotaFinalCad as 'Nota Final'
+	  ,TCla_DgClassificacao as 'Classificação'
+	  ,Nota_AnoCad as 'Ano Curricular'
+	  ,Nota_Ce_CdCurso as 'Cod Curso'
+	  ,Nota_Turma as 'Turma'
+	  --,Nota_NotaFinalCad 
+
+  FROM [bdsophis].[dbo].[TNotasEf]
+	INNER JOIn TCadeira 
+		on Nota_Cx_CdCadeira = Cade_Cp_CdCadeira 
+		and Nota_Cx_CdDepartamento = Cade_Cx_CdDepartamento
+
+	INNER JOIn TCliTes
+		ON Nota_IdOper = Clie_Cp_CdCliTes
+
+	INNER JOIN TTPeriod
+		ON Nota_Ce_Period = TTPeriod.TPer_Cp_CdPeriod
+
+	INNER JOIN TTClassi
+		ON Nota_Ce_CdClassificacao = TTClassi.TCla_Cp_CdClassificacao
+
+  where [Nota_AnoLect] > 2015
+  
